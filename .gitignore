@@ -1,0 +1,17 @@
+# Generated charts and downloaded pages
+output/
+.cache/
+
+# Original notebooks and their exports (kept locally; see git history)
+archive/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
