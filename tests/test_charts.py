@@ -13,12 +13,6 @@ def test_frontier_and_gap_charts(key):
     assert charts.gap_chart(charts.COMPARISONS[key]).data
 
 
-@pytest.mark.parametrize("key", list(charts.PROJECTIONS))
-def test_projection_charts(key):
-    fig = charts.projection_chart(charts.PROJECTIONS[key])
-    assert len(fig.layout.annotations) == 3  # one target-year callout per model
-
-
 @pytest.mark.parametrize("log_axis", [False, True])
 def test_strip_chart_labels_top_climbers_and_highlight(log_axis):
     table = pd.DataFrame(
@@ -54,6 +48,6 @@ def test_save_writes_small_html(tmp_path):
 
 def test_cli_offline_commands(tmp_path):
     assert main(["frontier", "all", "--out", str(tmp_path)]) == 0
-    assert main(["projection", "boulder-v19", "--out", str(tmp_path)]) == 0
+    assert main(["thumbnail", "--out", str(tmp_path)]) == 0
     assert (tmp_path / "gap_sport-gender.html").exists()
-    assert (tmp_path / "projection_boulder-v19.html").exists()
+    assert (tmp_path / "thumbnail.html").exists()

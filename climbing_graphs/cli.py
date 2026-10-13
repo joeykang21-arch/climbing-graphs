@@ -105,12 +105,6 @@ def cmd_frontier(args: argparse.Namespace) -> None:
         _save(charts.gap_chart(comparison), args, f"gap_{key}")
 
 
-def cmd_projection(args: argparse.Namespace) -> None:
-    keys = list(charts.PROJECTIONS) if args.projection == "all" else [args.projection]
-    for key in keys:
-        _save(charts.projection_chart(charts.PROJECTIONS[key]), args, f"projection_{key}")
-
-
 def cmd_timeline(args: argparse.Namespace) -> None:
     ascents = read_ascent_list(CATEGORIES["boulder"].url, refresh=args.refresh)
     _save(charts.timeline_chart(ascents), args, "timeline_hard_boulders")
@@ -125,7 +119,6 @@ def cmd_all(args: argparse.Namespace) -> None:
         (cmd_best, dict(category="all", scheme="all", as_of=None, log=None)),
         (cmd_comp, dict(gender="all")),
         (cmd_frontier, dict(comparison="all")),
-        (cmd_projection, dict(projection="all")),
         (cmd_timeline, {}),
         (cmd_thumbnail, {}),
     ]:
@@ -180,10 +173,6 @@ def _parser() -> argparse.ArgumentParser:
     frontier = commands.add_parser("frontier", parents=[common], help="hardest grade over time + gap charts")
     frontier.add_argument("comparison", choices=[*charts.COMPARISONS, "all"])
     frontier.set_defaults(handler=cmd_frontier)
-
-    projection = commands.add_parser("projection", parents=[common], help="when will the next grade fall?")
-    projection.add_argument("projection", choices=[*charts.PROJECTIONS, "all"])
-    projection.set_defaults(handler=cmd_projection)
 
     commands.add_parser("timeline", parents=[common], help="animated hard-boulder ascents").set_defaults(
         handler=cmd_timeline

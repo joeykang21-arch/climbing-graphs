@@ -2,7 +2,7 @@
 
 Each list records when a grade was first achieved in a given style. Where only
 the year is known the date is 1 January. Edit these lists to update the
-frontier, gap and projection charts.
+frontier and gap charts.
 """
 
 from __future__ import annotations
@@ -114,21 +114,4 @@ BOULDER_FLASH_MEN = [
     _m(2002, "V13", "Shadowfax", month=9),
     _m(2011, "V14", "Entlinge", month=11, day=28),
     _m(2025, "V15", "Foundation's Edge", month=7, day=9),
-]
-
-# --- Free solo -------------------------------------------------------------------------
-# Not monotonic: some grades were soloed before easier ones.
-
-FREE_SOLO = [
-    _m(1958, "6c", "Western Front", month=7, day=9),
-    _m(1961, "6c+", "Wall of Horrors"),
-    _m(1978, "7a", "Spider Line", month=2),
-    _m(1961, "7a+", "Thimble"),
-    _m(1981, "7b", "Mickey's Beach Crack", month=10),
-    _m(1986, "7c", "Weed Killer"),
-    _m(1985, "8a", "Revelations"),
-    _m(1987, "8a+", "Rêve de gosse"),
-    _m(1993, "8b", "Compilation"),
-    _m(2004, "8b+", "Kommunist"),
-    _m(2021, "8c", "Panem et Circenses", month=3),
 ]

@@ -25,20 +25,6 @@ def frontier_advances(milestones: Sequence[Milestone], scale: GradeScale) -> pd.
     return best_per_year[is_new_high].reset_index(drop=True)
 
 
-def drop_superseded(milestones: Sequence[Milestone], scale: GradeScale) -> list[Milestone]:
-    """Drop milestones beaten by a strictly earlier ascent of a harder grade, and
-    sort the rest by grade.
-
-    For example, if 7a+ was free soloed in 1961, a first 7a solo in 1978 is not a
-    frontier advance and would otherwise give the projections a negative gap.
-    """
-    kept = [
-        m for m in milestones
-        if not any(o.when < m.when and scale.position(o.grade) > scale.position(m.grade) for o in milestones)
-    ]
-    return sorted(kept, key=lambda m: scale.position(m.grade))
-
-
 def frontier_by_year(
     milestones: Sequence[Milestone], scale: GradeScale, years: range
 ) -> pd.Series:

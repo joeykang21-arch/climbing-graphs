@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from datetime import date, datetime
+from datetime import datetime
 
 import pandas as pd
 from dateutil import parser as dateparser
@@ -57,11 +57,3 @@ def _parse(text: str) -> datetime:
         return dateparser.parse(match.group(1), default=end, dayfirst=True)
 
     return dateparser.parse(text, dayfirst=True)
-
-
-def decimal_year(when: date | datetime | pd.Timestamp) -> float:
-    """2012-10-04 -> 2012.76"""
-    when = pd.Timestamp(when)
-    start = pd.Timestamp(year=when.year, month=1, day=1)
-    end = pd.Timestamp(year=when.year + 1, month=1, day=1)
-    return when.year + (when - start) / (end - start)

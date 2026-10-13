@@ -7,7 +7,8 @@ their ascents. The schemes differ only in how many points each grade is worth:
     The three hardest grades in a list are worth 18, 5 and 1 points. Each
     grade step is estimated to be ~5x harder, which would give 25 / 5 / 1; the
     top grade is discounted from 25 to 18 because grades at the very limit are
-    the least settled.
+    the least settled. The 5x figure is based on personal experience and is
+    somewhat arbitrary; the other schemes show how sensitive rankings are to it.
 
 ``conservative``: 4 / 2 / 1
     Same idea with each grade step only doubling in value.

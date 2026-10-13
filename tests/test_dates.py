@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from climbing_graphs.dates import decimal_year, parse_ascent_date
+from climbing_graphs.dates import parse_ascent_date
 
 
 @pytest.mark.parametrize(
@@ -28,8 +28,3 @@ def test_parse_ascent_date(raw, expected):
 @pytest.mark.parametrize("raw", [None, float("nan"), "", "   ", "sometime"])
 def test_unparseable_dates_are_nat(raw):
     assert pd.isna(parse_ascent_date(raw))
-
-
-def test_decimal_year():
-    assert decimal_year(pd.Timestamp("2020-01-01")) == 2020.0
-    assert decimal_year(pd.Timestamp("2021-07-02 12:00")) == pytest.approx(2021.5)

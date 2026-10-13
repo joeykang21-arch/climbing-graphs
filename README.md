@@ -27,6 +27,10 @@ separately within each list, so for flashes "hardest" means 8C, and for sport
 redpoints it means 9c. The onsight list has only two grades (9a and 8c+), so
 they get the top two values (18 and 5 in the main scheme).
 
+The 5x-per-grade estimate behind the main scheme comes from personal
+experience and is somewhat arbitrary. The other three schemes show how much
+the rankings depend on that choice.
+
 The rarity scores cover two orders of magnitude, so those charts use a log axis.
 
 ![Best boulder flashers, rarity scoring](docs/images/best_flashes_rarity.png)
@@ -47,7 +51,7 @@ Every chart is written as an interactive HTML file to `output/`. Add `--show`
 to open it in your browser as well.
 
 ```bash
-python -m climbing_graphs all                      # every chart (37 files)
+python -m climbing_graphs all                      # every chart (30 files)
 
 # Best climbers: flashes | boulder | sport | onsights | all
 python -m climbing_graphs best flashes             # 18/5/1 scoring
@@ -62,9 +66,6 @@ python -m climbing_graphs comp women
 
 # Hardest grade over time, plus the gap between the two lines
 python -m climbing_graphs frontier sport-gender    # also: boulder-gender, flash-gender, sport-style, boulder-style
-
-# "When will the next grade happen?"
-python -m climbing_graphs projection boulder-v19   # see --help for all projections
 
 python -m climbing_graphs timeline                 # animated build-up of every 8C+ and harder ascent
 python -m climbing_graphs thumbnail                # video thumbnail (illustrative, not real data)
@@ -101,25 +102,13 @@ The top 12 names are labelled.
 
 ![Boulder frontier, men vs women](docs/images/frontier_boulder-gender.png)
 
-**Projections** (`projection`): when will the next grade fall? Three models are
-fitted to the dates each grade was first climbed:
-
-- *Direct linear fit*: year is a straight line in grade.
-- *Linear-gap model*: the wait between grades grows by a fixed amount each grade.
-- *Exponential-gap model*: the wait between grades grows by a fixed factor each grade.
-
-The `sport-9c-hindcast` projection fits only the grades up to 9b+ and then shows
-when 9c actually happened (Silence, 2017).
-
-![9c hindcast](docs/images/projection_sport-9c-hindcast.png)
-
 ## Data
 
 | Data | Source |
 |---|---|
 | Hard boulder flashes, hard boulder ascents, hard sport ascents, hard onsights | [climbing-history.org](https://climbing-history.org) lists 20, 14, 5 and 37 (downloaded live) |
 | IFSC career wins | [Wikipedia: Ranking of career IFSC victories by climber](https://en.wikipedia.org/wiki/Ranking_of_career_IFSC_victories_by_climber) (downloaded live) |
-| First ascents of each grade (frontiers and projections) | Hand-curated in [`climbing_graphs/milestones.py`](climbing_graphs/milestones.py). Edits and corrections are welcome. |
+| First ascents of each grade (frontier charts) | Hand-curated in [`climbing_graphs/milestones.py`](climbing_graphs/milestones.py). Edits and corrections are welcome. |
 
 Ascent dates such as "Before 25th Feb 2008" or "9th-10th March 2025" resolve to
 the earliest date they could mean.
@@ -135,7 +124,6 @@ climbing_graphs/
   dates.py         parsing free-form ascent dates
   milestones.py    curated first-ascent-of-grade data
   frontier.py      hardest-grade-so-far series and gaps
-  projections.py   the three projection models
   labels.py        automatic non-overlapping label placement
   theme.py         shared colours, layout and HTML export
   charts/          one module per chart type
@@ -150,9 +138,6 @@ The video graphs came from Jupyter notebooks (preserved in this repo's first
 commit). Moving them into this package fixed several problems:
 
 - **Men's and women's competition charts were swapped.** Wikipedia reordered its tables, and the notebooks picked them by position. Tables are now found by their section heading.
-- **Grade steps were miscounted in projections.** When the data skipped a grade (no known men's 8a+ flash/onsight), the gap models were fitted against the wrong steps. The free-solo grade list also skipped 7b+ and 7c+, so 7b→7c→8a counted as two steps instead of four. Projections now use real grade positions.
-- **Free-solo projection.** Some grades were soloed before easier ones (7a+ in 1961, 7a in 1978), which gave the exponential model negative gaps. Milestones beaten by an earlier, harder ascent are now left out of the fit.
-- **First V16.** The frontier chart used Gioia (2008) but the projection used Hypnotized Minds (2010). Both now use Gioia, the earliest 8C+ on climbing-history.org.
 - **Manual adjustments removed.** The flash chart added 18 points to Adam Ondra by hand (for an 8C flash not yet listed at the time) and filtered out specific climbs. That ascent is now listed, so the adjustment would double-count it. Use `--as-of DATE` to reproduce a chart as it stood on a given date.
 - **Points for grades outside the top three.** One notebook gave 1 point for 8C+ flashes, which aren't in the list. Points now go to the top three grades actually present in each list.
 - **Labels are placed automatically** instead of hand-nudging individual names, so charts stay readable as the data changes.
